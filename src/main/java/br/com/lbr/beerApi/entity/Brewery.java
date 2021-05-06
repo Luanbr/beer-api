@@ -17,6 +17,4 @@ public class Brewery {
     private Long id;
     @Column(nullable = false, unique = true)
     private String name;
-    @OneToMany(mappedBy = "brewery")
-    private Set<Beer> beers;
 }

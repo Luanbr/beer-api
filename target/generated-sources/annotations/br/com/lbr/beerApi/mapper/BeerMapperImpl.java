@@ -1,13 +1,14 @@
 package br.com.lbr.beerApi.mapper;
 
 import br.com.lbr.beerApi.dto.BeerDTO;
+import br.com.lbr.beerApi.dto.BeerDTO.BeerDTOBuilder;
 import br.com.lbr.beerApi.entity.Beer;
 import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-05-05T02:11:44-0300",
-    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 16 (Oracle Corporation)"
+    date = "2021-05-05T23:16:45-0300",
+    comments = "version: 1.4.1.Final, compiler: javac, environment: Java 16.0.1 (Oracle Corporation)"
 )
 public class BeerMapperImpl implements BeerMapper {
 
@@ -19,6 +20,18 @@ public class BeerMapperImpl implements BeerMapper {
 
         Beer beer = new Beer();
 
+        beer.setName( beerDTO.getName() );
+        beer.setBrand( beerDTO.getBrand() );
+        if ( beerDTO.getMax() != null ) {
+            beer.setMax( beerDTO.getMax() );
+        }
+        if ( beerDTO.getQuantity() != null ) {
+            beer.setQuantity( beerDTO.getQuantity() );
+        }
+        beer.setId( beerDTO.getId() );
+        beer.setType( beerDTO.getType() );
+        beer.setBrewery( beerDTO.getBrewery() );
+
         return beer;
     }
 
@@ -28,8 +41,16 @@ public class BeerMapperImpl implements BeerMapper {
             return null;
         }
 
-        BeerDTO beerDTO = new BeerDTO();
+        BeerDTOBuilder beerDTO = BeerDTO.builder();
 
-        return beerDTO;
+        beerDTO.id( beer.getId() );
+        beerDTO.name( beer.getName() );
+        beerDTO.brand( beer.getBrand() );
+        beerDTO.max( beer.getMax() );
+        beerDTO.quantity( beer.getQuantity() );
+        beerDTO.type( beer.getType() );
+        beerDTO.brewery( beer.getBrewery() );
+
+        return beerDTO.build();
     }
 }

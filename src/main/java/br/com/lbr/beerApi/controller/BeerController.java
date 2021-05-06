@@ -1,12 +1,9 @@
 package br.com.lbr.beerApi.controller;
 
-import br.com.lbr.beerApi.exception.BreweryNotFoundException;
+import br.com.lbr.beerApi.exception.*;
 import lombok.AllArgsConstructor;
 import br.com.lbr.beerApi.dto.BeerDTO;
 import br.com.lbr.beerApi.dto.QuantityDTO;
-import br.com.lbr.beerApi.exception.BeerAlreadyRegisteredException;
-import br.com.lbr.beerApi.exception.BeerNotFoundException;
-import br.com.lbr.beerApi.exception.BeerStockExceededException;
 import br.com.lbr.beerApi.service.BeerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +29,7 @@ public class BeerController implements BeerControllerDocs {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BeerDTO createBeer(@RequestBody @Valid BeerDTO beerDTO) throws BeerAlreadyRegisteredException, BreweryNotFoundException {
+    public BeerDTO createBeer(@RequestBody @Valid BeerDTO beerDTO) throws BeerAlreadyRegisteredException, BreweryNotFoundException, BeerTypeNotFoundException {
         return beerService.createBeer(beerDTO);
     }
 

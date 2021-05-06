@@ -1,15 +1,12 @@
 package br.com.lbr.beerApi.controller;
 
-import br.com.lbr.beerApi.exception.BreweryNotFoundException;
+import br.com.lbr.beerApi.exception.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import br.com.lbr.beerApi.dto.BeerDTO;
 import br.com.lbr.beerApi.dto.QuantityDTO;
-import br.com.lbr.beerApi.exception.BeerAlreadyRegisteredException;
-import br.com.lbr.beerApi.exception.BeerNotFoundException;
-import br.com.lbr.beerApi.exception.BeerStockExceededException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -25,7 +22,7 @@ public interface BeerControllerDocs {
             @ApiResponse(code = 400, message = "Missing required fields or wrong field range value."),
             @ApiResponse(code = 404, message = "Beer with given name not found.")
     })
-    BeerDTO createBeer(BeerDTO beerDTO) throws BeerAlreadyRegisteredException, BreweryNotFoundException;
+    BeerDTO createBeer(BeerDTO beerDTO) throws BeerAlreadyRegisteredException, BreweryNotFoundException, BeerTypeNotFoundException;
 
     @ApiOperation(value = "Returns beer found by a given name")
     @ApiResponses(value = {

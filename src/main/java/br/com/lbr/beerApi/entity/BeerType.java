@@ -10,28 +10,10 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Beer {
-
+public class BeerType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false, unique = true)
     private String name;
-
-    @Column(nullable = false)
-    private String brand;
-
-    @Column(nullable = false)
-    private int max;
-
-    @Column(nullable = false)
-    private int quantity;
-
-    @OneToOne(targetEntity = BeerType.class)
-    private BeerType type;
-
-    @ManyToOne
-    @JoinColumn(name = "brewery_id")
-    private Brewery brewery;
 }

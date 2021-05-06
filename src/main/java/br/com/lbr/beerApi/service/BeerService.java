@@ -1,12 +1,9 @@
 package br.com.lbr.beerApi.service;
 
-import br.com.lbr.beerApi.exception.BreweryNotFoundException;
+import br.com.lbr.beerApi.exception.*;
 import lombok.AllArgsConstructor;
 import br.com.lbr.beerApi.dto.BeerDTO;
 import br.com.lbr.beerApi.entity.Beer;
-import br.com.lbr.beerApi.exception.BeerAlreadyRegisteredException;
-import br.com.lbr.beerApi.exception.BeerNotFoundException;
-import br.com.lbr.beerApi.exception.BeerStockExceededException;
 import br.com.lbr.beerApi.mapper.BeerMapper;
 import br.com.lbr.beerApi.repository.BeerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +20,22 @@ public class BeerService {
     private final BeerRepository beerRepository;
     private final BeerMapper beerMapper = BeerMapper.INSTANCE;
     private final BreweryService breweryService;
+    private final BeerTypeService beerTypeService;
 
-    public BeerDTO createBeer(BeerDTO beerDTO) throws BeerAlreadyRegisteredException, BreweryNotFoundException {
+    public BeerDTO createBeer(BeerDTO beerDTO) throws BeerAlreadyRegisteredException, BreweryNotFoundException, BeerTypeNotFoundException {
         verifyIfCanCreate(beerDTO);
+        final var breweryName = beerDTO.getBrewery().getName();
+        final var beerTypeName = beerDTO.getType().getName();
+        beerDTO.getBrewery().setId(breweryService.findByName(breweryName).getId());
+        beerDTO.getType().setId(beerTypeService.findByName(beerTypeName).getId());
         final var beer = beerMapper.toModel(beerDTO);
         return beerMapper.toDTO(beerRepository.save(beer));
     }
 
-    private void verifyIfCanCreate(BeerDTO beerDTO) throws BreweryNotFoundException, BeerAlreadyRegisteredException {
+    private void verifyIfCanCreate(BeerDTO beerDTO) throws BreweryNotFoundException, BeerAlreadyRegisteredException, BeerTypeNotFoundException {
         verifyIfIsAlreadyRegistered(beerDTO.getName());
         breweryService.findByName(beerDTO.getBrewery().getName());
+        beerTypeService.findByName(beerDTO.getType().getName());
     }
 
     public BeerDTO findByName(String name) throws BeerNotFoundException {
