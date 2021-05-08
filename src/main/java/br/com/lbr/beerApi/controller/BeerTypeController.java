@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/beerTypes")
@@ -27,5 +28,16 @@ public class BeerTypeController implements BeerTypeControllerDocs {
     @GetMapping("/{name}")
     public BeerTypeDTO findByName(@PathVariable String name) throws BeerTypeNotFoundException {
         return beerTypeService.findByName(name);
+    }
+
+    @GetMapping
+    public List<BeerTypeDTO> listBeerTypes() {
+        return beerTypeService.listAll();
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Long id) throws BeerTypeNotFoundException {
+        beerTypeService.deleteById(id);
     }
 }

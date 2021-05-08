@@ -4,9 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class BeerStockExceededException extends Exception {
+public class BeerStockMinExceededException extends Exception {
 
-    public BeerStockExceededException(Long id, int quantityToDecrement) {
-        super(String.format("Beers with %s ID to decrement informed exceeds the stock capacity: %s", id, quantityToDecrement));
+    public BeerStockMinExceededException(Long id, int quantityToDecrement, int actualStockQuantity) {
+        super(String.format("Beers with %s ID to decrement informed %s exceeds the stock capacity. Actual stock available %d", id, quantityToDecrement, actualStockQuantity));
     }
 }

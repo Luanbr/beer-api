@@ -9,6 +9,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
+
 @Api("Manages beer stock")
 public interface BeerTypeControllerDocs {
 
@@ -26,4 +28,16 @@ public interface BeerTypeControllerDocs {
     })
     BeerTypeDTO findByName(@PathVariable String name) throws BeerTypeNotFoundException;
 
+    @ApiOperation(value = "Returns a list of all beer types registered in the system")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "List of all beer types registered in the system"),
+    })
+    List<BeerTypeDTO> listBeerTypes();
+
+    @ApiOperation(value = "Delete a beer type found by a given valid Id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Success beer type deleted in the system"),
+            @ApiResponse(code = 404, message = "Beer type with given id not found.")
+    })
+    void deleteById(@PathVariable Long id) throws BeerTypeNotFoundException;
 }

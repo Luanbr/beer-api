@@ -1,7 +1,10 @@
 package br.com.lbr.beerApi.service;
 
+import br.com.lbr.beerApi.dto.BeerDTO;
 import br.com.lbr.beerApi.dto.BeerTypeDTO;
+import br.com.lbr.beerApi.entity.Beer;
 import br.com.lbr.beerApi.entity.BeerType;
+import br.com.lbr.beerApi.exception.BeerNotFoundException;
 import br.com.lbr.beerApi.exception.BeerTypeAlreadyRegisteredException;
 import br.com.lbr.beerApi.exception.BeerTypeNotFoundException;
 import br.com.lbr.beerApi.mapper.BeerTypeMapper;
@@ -10,7 +13,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -37,5 +42,22 @@ public class BeerTypeService {
         if (optSavedBeerType.isEmpty())
             throw new BeerTypeNotFoundException(name);
         return beerTypeMapper.toDTO(optSavedBeerType.get());
+    }
+
+    private BeerType verifyIfExists(Long id) throws BeerTypeNotFoundException {
+        return beerTypeRepository.findById(id)
+                .orElseThrow(() -> new BeerTypeNotFoundException(id));
+    }
+
+    public List<BeerTypeDTO> listAll() {
+        return beerTypeRepository.findAll()
+                .stream()
+                .map(beerTypeMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public void deleteById(Long id) throws BeerTypeNotFoundException {
+        verifyIfExists(id);
+        beerTypeRepository.deleteById(id);
     }
 }

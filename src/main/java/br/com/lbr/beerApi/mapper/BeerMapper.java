@@ -13,7 +13,6 @@ public interface BeerMapper {
 
     @Mapping(target = "name", source = "name")
     @Mapping(target = "brand", source = "brand")
-    @Mapping(target = "max", source = "max")
     @Mapping(target = "quantity", source = "quantity")
     Beer toModel(BeerDTO beerDTO);
 

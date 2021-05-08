@@ -27,10 +27,6 @@ public class BeerDTO {
     private String brand;
 
     @NotNull
-    @Max(500)
-    private Integer max;
-
-    @NotNull
     @Max(100)
     private Integer quantity;
 
